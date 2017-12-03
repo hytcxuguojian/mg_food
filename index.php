@@ -43,10 +43,19 @@
 .li_food_name{ width: 60%;}
 .li_food_price{ width: 20%;}
 .li_food_cnt{ width: 20%;}
+#manage_page{position: absolute; bottom: 6rem; border-radius: 50%; left: 0.8rem; z-index: 40; width: 3rem; height: 3rem; background-color: #3296ff; }
 </style>
 </head>
 
 <body style="position:relative; width:100; height:100%; overflow:hidden">
+<?php
+if(is_admin($user)){
+	echo '
+<div id="manage_page">
+	<a href="/today_order.php" style="width:100%; height:100%; display:block; line-height: 3rem; color: #ffffff; font-weight:bolder; text-align: center; font-size:2rem;">今</a>
+</div>';
+}
+?>
 <header class="sw-header sw-header-default">
 	<div class="sw-header-left sw-header-nav">
         <a href="javascript: void(0)" class="" onclick="history.go(-1)">

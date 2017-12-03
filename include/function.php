@@ -84,10 +84,17 @@
 		return $order_list;
 	}
 
+	//今日订单
+	function getTodayOrderList(){
+		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
+		$order_list = $db->get_results('SELECT * from `order` where created_at >= \''.date('Y-m-d',time()).'\' order by user_id,id;');
+		return $order_list;
+	}
+
 
 	//获取订单状态
 	function getOrderStatusZh($status){
-		$statusZh = [0 => '待付款',1 => '已付款',2 => '作废'];
+		$statusZh = [0 => '待付款',1 => '已付款',2 => '已作废'];
 		return array_key_exists($status, $statusZh) ? $statusZh[$status] : '';
 	}
 
@@ -111,6 +118,31 @@
 	//判断当前登录用户是否管理员
 	function is_admin($user){
 		return $user->is_admin;
+	}
+
+	//从订单food_info中获取商品名和数量
+	function getFoodNames($food_info_json){
+		$food_names = [];
+		$food_info = json_decode($food_info_json);
+		foreach ($food_info as $key => $food) {
+			$food_names[] = $food->food_num > 1 ? $food->food_name.'×'.$food->food_num : $food->food_name;
+		}
+		return $food_names;
+	}
+
+	//统计某一天的有效下单情况
+	function calculate($date){
+		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
+		$order_list = $db->get_results('SELECT * from `order` where status != 2 and created_at between \''.$date.'\' and \''.$date.' 23:59:59\' order by user_id,id;');
+		$data = [];
+		foreach ($order_list as $key => $order) {
+			$data[] = [
+				'username' => $order->username,
+				'foods' => implode('+', getFoodNames($order->food_info)),
+				'total_price' => intval($order->price) / 100,
+			];
+		}
+		return $data;
 	}
 
 ?>

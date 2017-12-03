@@ -4,8 +4,8 @@
 
 	//请求动作
 	$action = isset($_POST["action"]) ? $_POST["action"] : "";
-	//部分请求拦截验证登录
-	if(in_array($action, ['ensure','buy_again','change_order'])){
+	//部分请求需验证登录
+	if(in_array($action, ['ensure','buy_again','change_order','calculate'])){
 		checkLogin();
 	}
 
@@ -16,7 +16,7 @@
 		$username = isset($_POST["username"]) ? $_POST["username"] : "";
 		$password = isset($_POST["password"]) ? $_POST["password"] : "";
 		if ($username != '' && $password != '') {
-			$sql = 'SELECT * FROM user WHERE username = \''. $username .'\' and password = \''. md5($password) .'\'';
+			$sql = 'SELECT * FROM user WHERE status = 1 and username = \''. $username .'\' and password = \''. md5($password) .'\'';
 			$res = $db->get_row($sql);
 			if (!$res) {
 				header("location:/login.php?error=wrongpwd");
@@ -129,7 +129,7 @@
 					];
 				}
 				$db->query('update `order` set status = 1 where id = '.$order->id);
-			}elseif($type == 'unpaid'){
+			}elseif($type == 'unpay'){
 				if(!$is_admin){
 					$result = [
 						'status' => 301,
@@ -153,6 +153,19 @@
 				'msg' => '该订单不存在'
 			];
 		}
+		echo json_encode($result);
+		die();
+	}
+
+	if($action == 'calculate'){
+		$date = date('Y-m-d',time());
+		$data = calculate($date);
+		
+		$result = [
+			'status' => 0,
+			'data' => $data,
+			'msg' => '请求成功'
+		];
 		echo json_encode($result);
 		die();
 	}
