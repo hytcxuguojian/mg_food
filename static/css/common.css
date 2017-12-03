@@ -1,0 +1,208 @@
+@media only screen and (min-width: 320px) {
+    html {
+        font-size: 16px!important
+    }
+}
+
+@media only screen and (min-height: 480px) {
+    html {
+        font-size:16px!important
+    }
+}
+
+@media only screen and (min-height: 568px) {
+    html {
+        font-size:18px!important
+    }
+}
+
+@media only screen and (min-width: 375px) {
+    html {
+        font-size:20px!important
+    }
+}
+
+@media only screen and (min-width: 400px) {
+    html {
+        font-size:21.33333333px!important
+    }
+}
+
+@media only screen and (min-width: 414px) {
+    html {
+        font-size:22.08px!important
+    }
+}
+
+@media only screen and (min-width: 480px) {
+    html {
+        font-size:25.6px!important
+    }
+}
+
+html[data-rem="320"] {
+    font-size: 20px
+}
+
+@media only screen and (min-width: 375px) {
+    html[data-rem="320"] {
+        font-size:23.4375px!important
+    }
+}
+
+@media only screen and (min-width: 400px) {
+    html[data-rem="320"] {
+        font-size:25px!important
+    }
+}
+
+@media only screen and (min-width: 414px) {
+    html[data-rem="320"] {
+        font-size:25.875px!important
+    }
+}
+
+@media only screen and (min-width: 480px) {
+    html[data-rem="320"] {
+        font-size:30px!important
+    }
+}
+*{
+    margin:0;
+    padding:0;
+}
+*, :after, :before {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+html{
+    -webkit-tap-highlight-color: transparent;
+    -moz-tap-highlight-color: transparent;
+    -ms-tap-highlight-color: transparent;
+    tap-highlight-color: transparent;
+}
+body{
+    max-width: 700px;
+    margin: auto;
+    font-family:  Helvetica Neue,Helvetica,Arial,sans-serif;
+    color: #333;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+img{ border: 0px; }
+a{ text-decoration: none; cursor: pointer; color: #333;}
+ul,li{ list-style: none; list-style-position: outside; }
+
+.relative{
+    position: relative;
+}
+.absolute{
+    position: absolute;
+}
+.fixed{
+    position: fixed;
+}
+
+
+.sw-header{
+    position: relative;
+    width: 100%;
+    height: 49px;
+    line-height: 49px;
+    padding: 0 10px;
+} 
+.sw-header-default{
+    height: 1.95rem;
+    line-height: 1.95rem;
+    z-index: 1000;
+    background-color: #3296ff;
+}
+.sw-header-default .sw-header-title {
+    font-size: .95rem;
+    margin: 0;
+    text-align: center;
+}
+
+.sw-header-default .sw-header-title a {
+    color: #fff;
+    font-size: .9rem;
+    padding: 0 .25rem
+}
+
+.sw-header-default .header-icon-size {
+    color: #fff;
+    font-size: 150%
+}
+
+.sw-header-default .sw-header-icon {
+    color: #fff;
+    font-size: 1rem
+}
+.sw-header .sw-header-nav {
+    position: absolute;
+    top: 0;
+}
+.sw-header .sw-header-left {
+    left: 20px;
+}
+.sw-header .sw-header-right {
+    right: 20px;
+}
+.main {
+    margin: 0 auto;
+    background: #ececec;
+}
+
+.content_section {
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 1px .1rem rgba(0,0,0,.05);
+    min-height: 100%;
+}
+
+.section {
+    background-color: #fff;
+    margin-bottom: .5rem
+}
+
+.section-header {
+    border-left: .15rem solid #3296ff;
+    font-size: .8rem;
+    line-height: 1rem;
+    margin: .5rem 0 1rem .75rem;
+    padding: 0 .5rem;
+    color: #3296ff
+}
+.section-body {
+    margin: 0 auto;
+    width: 100%;
+}
+.section-body:after,.section-body:before {
+    content: " ";
+    display: table;
+}
+
+
+
+
+.nav-bottom{ position: absolute; bottom: 0; left: 0; width: 100%; height: 2rem; border-top: 1px solid #efefef; background-color: #fafafa;}
+.nav-btn{width: 33.33%; height: 100%; float: left; line-height: 2rem; text-align: center; font-size: 1rem; cursor: pointer;}
+.nav-btn.active{ background-color: #dfdfdf; }
+
+
+.footer_info{
+    text-align: center;
+    font-size: .8rem;
+    color: #b9b8b8;
+    padding: .85rem .85rem 0.85rem .85rem;
+    line-height: .9rem;
+}
+.clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+.clearfix{*+height:1%;}
+::-webkit-scrollbar {width: 0px}
+
+
+/************************自定义layer_mobile插件弹框样式****************************/
+.lm_remind_msg .layui-m-layercont{
+    /*background-color:#09C1FF; color:#fff;*/
+}
