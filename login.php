@@ -79,4 +79,15 @@
 </div>
 </div>
 </body>
+<script type="text/javascript">
+	$(function(){
+		$('input').focus(function(){
+			$('.footer_info').hide();
+		});
+
+		$('input').blur(function(){
+			$('.footer_info').show();
+		});
+	})
+</script>
 </html>

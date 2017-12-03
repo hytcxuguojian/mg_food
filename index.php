@@ -47,7 +47,7 @@
 </style>
 </head>
 
-<body style="position:relative; width:100; height:100%; overflow:hidden">
+<body style="position:relative; width:100; height:100%; overflow:hidden;">
 <?php
 if(is_admin($user)){
 	echo '
