@@ -180,7 +180,7 @@ if(is_admin($user)){
 		//清空购物车
 		$('.clear_btn').click(function(){
 			clearCartData();
-			window.location.href = '';
+			window.location.href = '?'+Date.parse(new Date());;
 		});
 
 		//购物车点击事件
