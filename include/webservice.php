@@ -13,10 +13,10 @@
 
 	//登录
 	if($action == "login"){
-		$username = isset($_POST["username"]) ? $_POST["username"] : "";
-		$password = isset($_POST["password"]) ? $_POST["password"] : "";
+		$username = trim(get_input('username',''));
+		$password = trim(get_input('password',''));
 		if ($username != '' && $password != '') {
-			$sql = 'SELECT * FROM user WHERE status = 1 and username = \''. trim($username) .'\' and password = \''. md5($password) .'\'';
+			$sql = 'SELECT * FROM user WHERE status = 1 and username = \''. $username .'\' and password = \''. md5($password) .'\'';
 			$res = $db->get_row($sql);
 			if (!$res) {
 				header("location:/login.php?error=wrongpwd");

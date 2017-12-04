@@ -16,14 +16,14 @@
 <style>
 #food_category_area{ height: 100%; min-height: 300px; width:30%; float:left; background-color:#f0f0f0;}
 #food_category_list{ width:100%;}
-.food_category{width: 100%; height: 2rem; text-align: left; font-weight: bolder; padding-left: 0.5rem; line-height: 2rem; font-size: 1rem; overflow: hidden;}
+.food_category{width: 100%; height: 2rem; text-align: left; color: #111; font-weight: bolder; padding-left: 0.5rem; line-height: 2rem; font-size: 1rem; overflow: hidden;}
 .first_food_category{border-left: 0.2rem solid #ff9933; background-color: #ffffff;}
 #food_area{ min-height: 300px; width:70%;  height: 100%; overflow-y:scroll; float:left; background-color:#ffffff; padding-bottom: 0.5rem;}
 .hidden_div{ display: none; width: 70%; position: absolute; top: 0; left: 30%; height: 100%; overflow-y: scroll;}
 .first_food_category .hidden_div{display: block;}
 .food_list{ width: 100%; padding-bottom: 5rem;}
 .food_list li{ padding: 0.5rem 0.5rem 0 0.3rem; }
-.food_name{ height: 1rem; font-size: 1rem; line-height: 1rem; color: #555;}
+.food_name{ height: 1rem; font-size: 1rem; line-height: 1rem; color: #666;}
 .food_op{width: 100%; padding-top: 0.3rem; height: 1.5rem; line-height: 1.5rem;}
 .food_price{ width: 50%; height: 1rem; line-height: 1rem; font-size: 0.9rem; color: #ff9933; float: left;}
 .op_btn{float: right; height: 1rem; line-height: 1rem; width: 50%; text-align: right;}
