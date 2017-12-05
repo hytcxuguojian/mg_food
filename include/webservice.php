@@ -33,7 +33,7 @@
 		$foods = json_decode(get_input('foods',''),true);
 		$food_ids = [];
 		$food_to_num = [];
-		foreach ($foods as $key => $value) {
+		foreach (valueToArray($foods) as $key => $value) {
 			$food_ids[] = $value['food_id'];
 			$food_to_num[$value['food_id']] = $value['food_num'];
 		}

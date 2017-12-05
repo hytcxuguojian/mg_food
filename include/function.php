@@ -22,10 +22,10 @@
 		$data = [];
 		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
 		$food_categorys = $db->get_results('SELECT * from food_category where business_id = 1');
-		foreach ($food_categorys as $food_category) {
+		foreach (valueToArray($food_categorys) as $food_category) {
 			$food_list = $db->get_results('SELECT id,food_name,food_category_id,food_category_name,food_price from food where `status` = 0 and food_category_id = '.$food_category->id);
 			$data[$food_category->id] = ['food_category_name' => $food_category->category_name,'food_category_id' => $food_category->id];
-			foreach ($food_list as $food) {
+			foreach (valueToArray($food_list) as $food) {
 				$data[$food_category->id]["food_list"][] = [
 					"food_id" => $food->id,
 					"food_name" => $food->food_name,
@@ -63,7 +63,7 @@
 		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
 		$food_list = $db->get_results('SELECT * from food where id in('.$food_ids.')');
 		$data = [];
-		foreach ($food_list as $food) {
+		foreach (valueToArray($food_list) as $food) {
 			$data[$food->id] = [
 				"food_id" => $food->id,
 				"food_name" => $food->food_name,
@@ -81,14 +81,14 @@
 	function getUserOrderList($user_id){
 		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
 		$order_list = $db->get_results('SELECT * from `order` where user_id ='.$user_id.' order by id desc limit 15;');
-		return $order_list;
+		return valueToArray($order_list);
 	}
 
 	//今日订单
 	function getTodayOrderList(){
 		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
-		$order_list = $db->get_results('SELECT * from `order` where created_at >= \''.date('Y-m-d',time()).'\' order by user_id,id;');
-		return $order_list;
+		$order_list = $db->get_results('SELECT * from `order` where created_at >= \''.date('Y-m-d',time()).'\' order by status,id;');
+		return valueToArray($order_list);
 	}
 
 
@@ -124,7 +124,7 @@
 	function getFoodNames($food_info_json){
 		$food_names = [];
 		$food_info = json_decode($food_info_json);
-		foreach ($food_info as $key => $food) {
+		foreach (valueToArray($food_info) as $key => $food) {
 			$food_names[] = $food->food_num > 1 ? $food->food_name.'×'.$food->food_num : $food->food_name;
 		}
 		return $food_names;
@@ -135,7 +135,7 @@
 		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
 		$order_list = $db->get_results('SELECT * from `order` where status != 2 and created_at between \''.$date.'\' and \''.$date.' 23:59:59\' order by user_id,id;');
 		$data = [];
-		foreach ($order_list as $key => $order) {
+		foreach (valueToArray($order_list) as $key => $order) {
 			$data[] = [
 				'username' => $order->username,
 				'foods' => implode('+', getFoodNames($order->food_info)),
@@ -143,6 +143,11 @@
 			];
 		}
 		return $data;
+	}
+
+	//强制返回数组
+	function valueToArray($value = ''){
+		return is_array($value) ? $value : [];
 	}
 
 ?>
