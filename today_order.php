@@ -151,10 +151,12 @@ ul.food_container .food{width: 100%; height: 1rem; line-height: 1rem; font-size:
 				var res = eval("("+result+")");
 				if(res.status == 0){
 					var data = res.data;
+					var cal_total_price = 0;
 					for (var i in data) {
 						html+='<p>'+data[i].username+'&nbsp&nbsp&nbsp&nbsp&nbsp'+data[i].foods+'&nbsp&nbsp&nbsp&nbsp&nbsp'+data[i].total_price+'元</p>';
-						console.log(data[i]);
+						cal_total_price+=data[i].total_price;
 					};
+					html+='<p>总计：'+cal_total_price+'元</p>';
 					$('#cal_res .cal_content').html(html);
 					$('#cal_res').show();
 				}else{
