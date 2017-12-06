@@ -3,6 +3,7 @@
 	checkLogin();
 	$user = $_SESSION['user'];
 	$order_items = getUserOrderList($user->id);
+	var_dump(calculate(date('Y-m-d',time())));die;
  ?>
 <!DOCTYPE html>
 <html style="height:100%;">

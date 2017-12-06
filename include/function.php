@@ -124,7 +124,7 @@
 	function getFoodNames($food_info_json){
 		$food_names = [];
 		$food_info = json_decode($food_info_json);
-		foreach (valueToArray($food_info) as $key => $food) {
+		foreach ($food_info as $key => $food) {
 			$food_names[] = $food->food_num > 1 ? $food->food_name.'×'.$food->food_num : $food->food_name;
 		}
 		return $food_names;
