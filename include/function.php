@@ -25,7 +25,7 @@
 		if (function_exists ('mysql_connect') ){
 			return new ezSQL_mysql(DB_USER,DB_PASSWORD,DB_NAME,DB_HOST);
 		}else{
-			return new ezSQL_mysqli(DB_USER,DB_PASSWORD,DB_NAME,DB_HOST);
+			return new ezSQL_mysqli(DB_USER,DB_PASSWORD,DB_NAME,DB_HOST,'utf-8');
 		}
 		
 	}

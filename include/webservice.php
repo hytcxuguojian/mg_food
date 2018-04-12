@@ -9,7 +9,7 @@
 		checkLogin();
 	}
 
-	$user = $_SESSION['user'];
+	$user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 
 	//登录
 	if($action == "login"){
