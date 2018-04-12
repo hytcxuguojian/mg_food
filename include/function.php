@@ -31,11 +31,11 @@
 	}
 
 	//设置菜品数据
-	function setFoodData()
+	function setFoodData($business_id)
 	{
 		$data = [];
 		$db = makeDB();
-		$food_categorys = $db->get_results('SELECT * from food_category where business_id = 1');
+		$food_categorys = $db->get_results('SELECT * from food_category where business_id = '.$business_id);
 		foreach (valueToArray($food_categorys) as $food_category) {
 			$food_list = $db->get_results('SELECT id,food_name,food_category_id,food_category_name,food_price from food where `status` = 0 and food_category_id = '.$food_category->id);
 			$data[$food_category->id] = ['food_category_name' => $food_category->category_name,'food_category_id' => $food_category->id];
@@ -51,14 +51,34 @@
 		file_put_contents('include/food_data.json',json_encode($data));
 	}
 
-	//获取菜品数据
-	function getFoodData(){		
-		$food_data_json = file_get_contents('include/food_data.json');
+	//以获取菜品数据
+	function getFoodDataByCache($business_id){		
+		$food_data_json = file_get_contents('include/food_data_'.$business_id.'.json');
 		if(empty($food_data_json)){
-			setFoodData();
-			getFoodData();
+			setFoodData($business_id);
+			getFoodDataByCache($business_id);
 		}
 		return $food_data_json;
+	}
+
+	//获取菜品数据
+	function getFoodDataByBid($business_id){		
+		$data = [];
+		$db = makeDB();
+		$food_categorys = $db->get_results('SELECT * from food_category where business_id = '.$business_id);
+		foreach (valueToArray($food_categorys) as $food_category) {
+			$food_list = $db->get_results('SELECT id,food_name,food_category_id,food_category_name,food_price from food where `status` = 0 and food_category_id = '.$food_category->id);
+			$data[$food_category->id] = ['food_category_name' => $food_category->category_name,'food_category_id' => $food_category->id];
+			foreach (valueToArray($food_list) as $food) {
+				$data[$food_category->id]["food_list"][] = [
+					"food_id" => $food->id,
+					"food_name" => $food->food_name,
+					"food_category_id" => $food->food_category_id,
+					"food_price" => $food->food_price
+				];
+			}
+		}
+		return json_encode($data);
 	}
 
 	//获取输入请求数据
