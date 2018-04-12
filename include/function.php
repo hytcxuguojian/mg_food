@@ -1,6 +1,10 @@
 <?php
 	include_once "ez_sql_core.php";
-	include_once "ez_sql_mysql.php";	
+	if (function_exists ('mysql_connect') ){
+		include_once "ez_sql_mysql.php";
+	}else{
+		include_once "ez_sql_mysqli.php";
+	}
 	include_once "config.php";
 
 	session_start();
@@ -16,16 +20,26 @@
 		$_SESSION["user"] = null;
 	}
 
+	//生成数据库连接对象
+	function makeDB(){
+		if (function_exists ('mysql_connect') ){
+			return new ezSQL_mysql(DB_USER,DB_PASSWORD,DB_NAME,DB_HOST);
+		}else{
+			return new ezSQL_mysqli(DB_USER,DB_PASSWORD,DB_NAME,DB_HOST);
+		}
+		
+	}
+
 	//设置菜品数据
 	function setFoodData()
 	{
 		$data = [];
-		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
+		$db = makeDB();
 		$food_categorys = $db->get_results('SELECT * from food_category where business_id = 1');
-		foreach (valueToArray($food_categorys) as $food_category) {
+		foreach ($food_categorys as $food_category) {
 			$food_list = $db->get_results('SELECT id,food_name,food_category_id,food_category_name,food_price from food where `status` = 0 and food_category_id = '.$food_category->id);
 			$data[$food_category->id] = ['food_category_name' => $food_category->category_name,'food_category_id' => $food_category->id];
-			foreach (valueToArray($food_list) as $food) {
+			foreach ($food_list as $food) {
 				$data[$food_category->id]["food_list"][] = [
 					"food_id" => $food->id,
 					"food_name" => $food->food_name,
@@ -60,10 +74,10 @@
 	//根据商品id获取商品数据
 	function getFoodDataByIds($food_id_arr = []){
 		$food_ids = implode(',', $food_id_arr);
-		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
+		$db = makeDB();
 		$food_list = $db->get_results('SELECT * from food where id in('.$food_ids.')');
 		$data = [];
-		foreach (valueToArray($food_list) as $food) {
+		foreach ($food_list as $food) {
 			$data[$food->id] = [
 				"food_id" => $food->id,
 				"food_name" => $food->food_name,
@@ -79,22 +93,15 @@
 
 	//获取用户订单数据
 	function getUserOrderList($user_id){
-		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
+		$db = makeDB();
 		$order_list = $db->get_results('SELECT * from `order` where user_id ='.$user_id.' order by id desc limit 15;');
-		return valueToArray($order_list);
-	}
-
-	//今日订单
-	function getTodayOrderList(){
-		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
-		$order_list = $db->get_results('SELECT * from `order` where created_at >= \''.date('Y-m-d',time()).'\' order by status,id;');
-		return valueToArray($order_list);
+		return $order_list;
 	}
 
 
 	//获取订单状态
 	function getOrderStatusZh($status){
-		$statusZh = [0 => '待付款',1 => '已付款',2 => '已作废'];
+		$statusZh = [0 => '待付款',1 => '已付款',2 => '作废'];
 		return array_key_exists($status, $statusZh) ? $statusZh[$status] : '';
 	}
 
@@ -111,43 +118,13 @@
 
 	//根据订单号获取订单对象
 	function getOrderByOrderNo($order_no){
-		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
+		$db = makeDB();
 		return $db->get_row("SELECT * FROM `order` WHERE order_no = '$order_no'");
 	}
 
 	//判断当前登录用户是否管理员
 	function is_admin($user){
 		return $user->is_admin;
-	}
-
-	//从订单food_info中获取商品名和数量
-	function getFoodNames($food_info_json){
-		$food_names = [];
-		$food_info = json_decode($food_info_json);
-		foreach ($food_info as $key => $food) {
-			$food_names[] = $food->food_num > 1 ? $food->food_name.'×'.$food->food_num : $food->food_name;
-		}
-		return $food_names;
-	}
-
-	//统计某一天的有效下单情况
-	function calculate($date){
-		$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);
-		$order_list = $db->get_results('SELECT * from `order` where status != 2 and created_at between \''.$date.'\' and \''.$date.' 23:59:59\' order by user_id,id;');
-		$data = [];
-		foreach (valueToArray($order_list) as $key => $order) {
-			$data[] = [
-				'username' => $order->username,
-				'foods' => implode('+', getFoodNames($order->food_info)),
-				'total_price' => intval($order->price) / 100,
-			];
-		}
-		return $data;
-	}
-
-	//强制返回数组
-	function valueToArray($value = ''){
-		return is_array($value) ? $value : [];
 	}
 
 ?>

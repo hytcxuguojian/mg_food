@@ -1,6 +1,6 @@
 <?php 
 	include_once "function.php";
-	$db = new ezSQL_mysql(DB_USER,DB_PASSWORD,'mg_food',DB_HOST);	
+	$db = makeDB();	
 
 	//请求动作
 	$action = isset($_POST["action"]) ? $_POST["action"] : "";
