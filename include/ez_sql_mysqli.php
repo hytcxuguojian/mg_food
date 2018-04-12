@@ -42,7 +42,8 @@
 			$this->dbuser = $dbuser;
 			$this->dbpassword = $dbpassword;
 			$this->dbname = $dbname;
-			list( $this->dbhost, $this->dbport ) = $this->get_host_port( $dbhost, 3306 );
+			$this->dbhost = $dbhost;
+			$this->dbport = 3306;
 			$this->encoding = $encoding;
 		}
 		/**********************************************************************
@@ -69,7 +70,7 @@
 			
 			// If port not specified (new connection issued), get it
 			if( ! $dbport ) {
-				list( $dbhost, $dbport ) = $this->get_host_port( $dbhost, 3306 );
+				$dbport = 3306;
 			}
 			
 			// Must have a user and a password
