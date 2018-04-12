@@ -6,7 +6,7 @@
 		include_once "ez_sql_mysqli.php";
 	}
 	include_once "config.php";
-
+	
 	session_start();
 
 	function checkLogin(){

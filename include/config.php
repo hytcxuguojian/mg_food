@@ -4,8 +4,8 @@
 	// 数据库用户
 	define('DB_USER','root');
 	//数据库密码
-	define('DB_PASSWORD','');
-	//数据库密码
+	define('DB_PASSWORD','920830');
+	//数据库名称
 	define('DB_NAME','mg_food');
 
 ?>
