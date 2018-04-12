@@ -2,7 +2,7 @@
 	include_once "include/function.php";
 	checkLogin();
 	$user = $_SESSION['user'];
-	$food_data = json_decode(getFoodDataByBid(1));
+	$food_data = json_decode(getFoodDataByBid(2));
  ?>
 <!DOCTYPE html>
 <html style="height:100%;">

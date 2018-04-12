@@ -48,12 +48,12 @@
 				];
 			}
 		}
-		file_put_contents('include/food_data.json',json_encode($data));
+		file_put_contents('storage/food_data.json',json_encode($data));
 	}
 
-	//以获取菜品数据
+	//获取菜品数据
 	function getFoodDataByCache($business_id){		
-		$food_data_json = file_get_contents('include/food_data_'.$business_id.'.json');
+		$food_data_json = file_get_contents('storage/food_data_'.$business_id.'.json');
 		if(empty($food_data_json)){
 			setFoodData($business_id);
 			getFoodDataByCache($business_id);
@@ -153,6 +153,19 @@
 	function is_admin($user){
 		return $user->is_admin;
 	}
+
+	//判断商家是否可以接单
+	function can_order($business_id){
+		$db = makeDB();
+		$business = $db->get_row("SELECT * FROM `business` WHERE id = $business_id");		
+		if($business && ($business->status == 0)){
+			return true;
+		}else{
+			return false;
+		}
+		
+	}
+
 
 	//从订单food_info中获取商品名和数量
 	function getFoodNames($food_info_json){

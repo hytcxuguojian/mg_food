@@ -8,7 +8,7 @@
 <html style="height:100%;">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>安庆小吃快捷通道</title>
+<title>魔格午餐快捷绿色通道</title>
 <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0'/>
 <link rel="stylesheet" href="static/css/common.css">
 <link href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
@@ -62,7 +62,7 @@ ul.food_container .food{width: 100%; height: 1rem; line-height: 1rem; font-size:
 	        		$order_html.='<li class="order_item" data-order-no="'.$order->order_no.'">';
 	        		$order_html.='	<div class="top">';
 	        		$order_html.='		<div class="left_nav">';
-	        		$order_html.='			<p class="bussiness">安庆小吃</p>';
+	        		$order_html.='			<p class="business">'.$order->business_name.'</p>';
 	        		$order_html.='			<p class="created_at">'.$order->created_at.'</p>';
 	        		$order_html.='		</div>';
 	        		$order_html.='		<div class="order_status">'.getOrderStatusZh($order->status).'</div>';
@@ -112,6 +112,7 @@ ul.food_container .food{width: 100%; height: 1rem; line-height: 1rem; font-size:
 			data : {action : "buy_again",order_no : order_no},
 			success : function(result){
 				var res = eval("("+result+")");
+				console.log(res.msg);
 				if(res.status == 0){
 					window.localStorage.cart = res.data;
 					window.location.href = 'index.php';

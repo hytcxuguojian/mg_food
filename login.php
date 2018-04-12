@@ -30,7 +30,7 @@
         </a>
     </div>
     <h1 class="sw-header-title">
-        <a href="javascript: void(0)">安庆小吃快捷通道</a>
+        <a href="javascript: void(0)">魔格午餐快捷绿色通道</a>
     </h1>
     <div class="sw-header-right sw-header-nav">
         <a href="/">
@@ -75,8 +75,7 @@
         </div>
 	</div>
 	<div class="footer_info" style="width:100%; position:absolute; background-color:#ececec; bottom:0; left:0;">Copyright(c)2017 南京魔格研发部小胥同学
-    <br>大吉大利，天天安庆
-</div>
+	</div>
 </div>
 </body>
 <script type="text/javascript">

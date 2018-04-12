@@ -48,19 +48,22 @@
 		$username = $user->username;
 		$order_no = makeOrderNo();
 		$total_price = 0;
+		$business_id = 0;
+		$business_name = '';
 		foreach ($food_data as $id => $food) {
 			$total_price += intval($food['food_price']) * intval($food['food_num']);
+			$business_id = $food['business_id'];
+			$business_name = $food['business_name'];
 		}
-		$sql = "insert into `order`(order_no,user_id,username,food_info,price,discount_price,status,created_at,updated_at) 
-		values('$order_no',$userid,'$username','$food_info',$total_price,0,0,now(),now())";
-		$res = $db->query($sql);
-		//$order_id = $db->get_var("select max(id) from order");
-		if($res){
+		try{
+			$sql = "insert into `order`(order_no,user_id,username,food_info,price,discount_price,business_id,business_name,status,created_at,updated_at) 
+		values('$order_no',$userid,'$username','$food_info',$total_price,0,$business_id,'$business_name',0,now(),now())";
+			$res = $db->query($sql);
 			$result = [
 				'status' => 0,
 				'msg' => '您已下单成功'
 			];
-		}else{
+		} catch(\Exception $e){
 			$result = [
 				'status' => 500,
 				'msg' => '服务器网络异常，提交失败，稍后请重试'
@@ -75,21 +78,28 @@
 		$order_no = get_input('order_no','');
 		$order = getOrderByOrderNo($order_no);
 		if($order){
-			$food_info = json_decode($order->food_info);
-			$cart_data = [];
-			foreach ($food_info as $food_id => $food) {
-				$cart_data[] = [
-					'food_id' => $food->food_id,
-					'food_num' => $food->food_num,
-					'single_price' => $food->food_price / 100,
-					'food_name' => $food->food_name
+			if(!can_order($order->business_id)){
+				$result = [
+					'status' => 304,
+					'msg' => '该店暂不接单'
+				];
+			}else{
+				$food_info = json_decode($order->food_info);
+				$cart_data = [];
+				foreach ($food_info as $food_id => $food) {
+					$cart_data[] = [
+						'food_id' => $food->food_id,
+						'food_num' => $food->food_num,
+						'single_price' => $food->food_price / 100,
+						'food_name' => $food->food_name
+					];
+				}
+				$result = [
+					'status' => 0,
+					'data' => json_encode($cart_data),
+					'msg' => '操作成功'
 				];
 			}
-			$result = [
-				'status' => 0,
-				'data' => json_encode($cart_data),
-				'msg' => '操作成功'
-			];
 		}else{
 			$result = [
 				'status' => 401,
