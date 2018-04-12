@@ -127,4 +127,9 @@
 		return $user->is_admin;
 	}
 
+	//强制返回数组
+	function valueToArray($value = ''){
+		return is_array($value) ? $value : [];
+	}
+
 ?>
